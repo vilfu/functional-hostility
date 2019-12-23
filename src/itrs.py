@@ -6,25 +6,25 @@ import pytest
 lst1 = [1, 2, 3]
 
 
-def pythonic_always_6_elements(lst):
-    return lst + [None] * (6 - len(lst))
+def pythonic_always_6_elements(seq, padded_length):
+    return seq + [None] * (padded_length - len(seq))
 
 
-def iter_always_6_elements(lst):
-    return islice(chain(lst, repeat(None)), 6)
+def iter_always_6_elements(seq, padded_length):
+    return islice(chain(seq, repeat(None)), padded_length)
 
 
-def pipe_always_6_elements(lst):
-    return (lst | chain_with(repeat(None))
-                | take(6))
+def pipe_always_6_elements(seq, padded_length):
+    return (seq | chain_with(repeat(None))
+            | take(padded_length))
 
-@pytest.mark.parametrize("lst, func", [
-    (lst1, pythonic_always_6_elements),
-    (lst1, iter_always_6_elements),
-    (lst1, pipe_always_6_elements),
-#    (range(4), pythonic_always_6_elements),
-    (range(4), iter_always_6_elements),
-    (range(4), pipe_always_6_elements),
+@pytest.mark.parametrize("seq, func, padded_length", [
+    (lst1, pythonic_always_6_elements, 6),
+    (lst1, iter_always_6_elements, 6),
+    (lst1, pipe_always_6_elements, 6),
+#    (range(4), pythonic_always_6_elements, 11),
+    (range(4), iter_always_6_elements, 11),
+    (range(4), pipe_always_6_elements, 11),
 ])
-def test_iter(lst, func):
-    assert len(list(func(lst))) == 6
+def test_iter(seq, func, padded_length):
+    assert len(list(func(seq, padded_length))) == padded_length
