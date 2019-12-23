@@ -16,7 +16,7 @@ def iter_pad_to(seq, padded_length):
 
 def pipe_pad_to(seq, padded_length):
     return (seq | chain_with(repeat(None))
-            | take(padded_length))
+                | take(padded_length))
 
 
 @pytest.mark.parametrize(
