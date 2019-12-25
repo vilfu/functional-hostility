@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from functools import reduce
 from itertools import chain
 from types import FunctionType
-from typing import Any
+
 
 KEEP = lambda f1, f2: f1 if f1 is not None else f2
 COMBINE_STR = lambda f1, f2: "".join([(f1 or ""), (f2 or "")])
@@ -57,10 +57,6 @@ def merge_levels(m1: Mapping, m2: Mapping) -> Mapping:
             for k in keys}
 
 
-def merge_level_by_level(results):
-    return reduce(merge_levels, results, {})
-
-
 def test_merging_level_by_level():
     result = reduce(merge_levels, results, {})
 
@@ -89,5 +85,3 @@ def test_merging_field_by_field():
     assert combined_values[F] == 2
     assert combined_values[C] == "c1c2c3"
     assert combined_values[E] == 1
-
-
